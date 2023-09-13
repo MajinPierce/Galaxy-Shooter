@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
     private const float BoundX = 9.6f;
     private const float BoundY = 5.2f;
-    private const float PlayerModelOffset = 0.75f;
+    private const float PlayerModelOffset = 1f;
     private float _canFire = -1f;
     
     
