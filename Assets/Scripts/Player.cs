@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -10,6 +11,7 @@ public class Player : MonoBehaviour
     private float fireRate = 0.25f;
     [SerializeField]
     private GameObject laserPrefab;
+    private SpawnManager _spawnManager;
     private const float BoundX = 9.6f;
     private const float BoundY = 5.2f;
     private const float PlayerModelOffset = 0.75f;
@@ -19,6 +21,11 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        _spawnManager = GameObject.FindGameObjectWithTag("Spawn Manager").transform.GetComponent<SpawnManager>();
+        if (_spawnManager.IsUnityNull())
+        {
+            Debug.LogError("Spawn Manager is null");
+        }
         transform.position = new Vector3(0, -4, 0);
     }
 
@@ -56,9 +63,8 @@ public class Player : MonoBehaviour
     public void Damage()
     {
         lives--;
-        if (lives <= 0)
-        {
-            Destroy(gameObject);
-        }
+        if (lives > 0) return;
+        _spawnManager.OnPlayerDeath();
+        Destroy(gameObject);
     }
 }
