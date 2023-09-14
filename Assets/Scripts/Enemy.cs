@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     private float amplitude = 3f;
     [SerializeField]
     private float speed = 3f;
-    private const float BoundY = 7f;
+    private const float BoundY = 7.5f;
     private const float BoundX = 9f;
     private float fuzzer;
     

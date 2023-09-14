@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject laserPrefab;
     private SpawnManager _spawnManager;
-    private const float BoundX = 9.6f;
-    private const float BoundY = 5.2f;
+    private const float BoundX = 9.65f;
+    private const float BoundY = 4.6f;
     private const float PlayerModelOffset = 1f;
     private float _canFire = -1f;
     
