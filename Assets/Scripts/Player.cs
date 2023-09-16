@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class Player : MonoBehaviour
     private GameObject laserPrefab;
     [SerializeField]
     private GameObject tripleShotPrefab;
+    [SerializeField]
+    private GameObject shield;
     private SpawnManager _spawnManager;
     private const float BoundX = 9.65f;
     private const float BoundY = 4.6f;
@@ -24,6 +27,8 @@ public class Player : MonoBehaviour
     private float _canFire = -1f;
     [SerializeField]
     private bool hasTripleShot = false;
+    [SerializeField]
+    private bool hasShield = false;
     [SerializeField]
     private float powerupActivationTime = 5f;
     
@@ -80,6 +85,12 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        if (hasShield)
+        {
+            hasShield = false; 
+            return;
+        }
+        
         lives--;
         if (lives > 0) return;
         _spawnManager.OnPlayerDeath();
@@ -98,6 +109,11 @@ public class Player : MonoBehaviour
                 speed += speedBoostFactor;
                 StartCoroutine(SpeedBoostRuntime());
                 break;
+            case 2:
+                hasShield = true;
+                shield.SetActive(true);
+                StartCoroutine(ShieldRuntime());
+                break;
         }
     }
 
@@ -111,6 +127,13 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(powerupActivationTime);
         speed -= speedBoostFactor;
+    }
+    
+    private IEnumerator ShieldRuntime()
+    {
+        yield return new WaitForSeconds(powerupActivationTime);
+        hasShield = false;
+        shield.SetActive(false);
     }
     
 }

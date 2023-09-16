@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -13,7 +14,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject speedBoostPrefab;
     [SerializeField]
-    private float spawnRate = 3f;
+    private GameObject shieldPrefab;
+    [FormerlySerializedAs("spawnRate")] [SerializeField]
+    private float enemySpawnRate = 3f;
     private bool _stopSpawning = false;
     private const float BoundY = 7.5f;
     private const float BoundX = 9f;
@@ -24,12 +27,13 @@ public class SpawnManager : MonoBehaviour
     {
         powerups.Add(tripleShotPrefab);
         powerups.Add(speedBoostPrefab);
+        powerups.Add(shieldPrefab);
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         
     }
@@ -49,10 +53,10 @@ public class SpawnManager : MonoBehaviour
                 Quaternion.identity
                 );
             newEnemy.transform.parent = enemyContainer.transform;
-            yield return new WaitForSeconds(spawnRate);
-            if (spawnRate >= 0.3f)
+            yield return new WaitForSeconds(enemySpawnRate);
+            if (enemySpawnRate >= 0.3f)
             {
-                spawnRate -= 0.05f;
+                enemySpawnRate -= 0.05f;
             }
         }
     }
