@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float speed = 5f;
     [SerializeField]
+    private float speedBoostFactor = 5f;
+    [SerializeField]
     private float fireRate = 0.25f;
     [SerializeField]
     private GameObject laserPrefab;
@@ -84,16 +86,31 @@ public class Player : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void ActivateTripleShot()
+    public void ActivatePowerup(int powerupId)
     {
-        hasTripleShot = true;
-        StartCoroutine(TripleShotRuntime());
+        switch (powerupId)
+        {
+            case 0:
+                hasTripleShot = true;
+                StartCoroutine(TripleShotRuntime());
+                break;
+            case 1:
+                speed += speedBoostFactor;
+                StartCoroutine(SpeedBoostRuntime());
+                break;
+        }
     }
 
     private IEnumerator TripleShotRuntime()
     {
         yield return new WaitForSeconds(powerupActivationTime);
         hasTripleShot = false;
+    }
+    
+    private IEnumerator SpeedBoostRuntime()
+    {
+        yield return new WaitForSeconds(powerupActivationTime);
+        speed -= speedBoostFactor;
     }
     
 }

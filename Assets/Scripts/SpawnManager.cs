@@ -11,13 +11,19 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject tripleShotPrefab;
     [SerializeField]
+    private GameObject speedBoostPrefab;
+    [SerializeField]
     private float spawnRate = 3f;
     private bool _stopSpawning = false;
     private const float BoundY = 7.5f;
     private const float BoundX = 9f;
+
+    private List<GameObject> powerups = new List<GameObject>();
     // Start is called before the first frame update
     private void Start()
     {
+        powerups.Add(tripleShotPrefab);
+        powerups.Add(speedBoostPrefab);
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
     }
@@ -55,11 +61,12 @@ public class SpawnManager : MonoBehaviour
     {
         while (!_stopSpawning)
         {
-            Instantiate(tripleShotPrefab,
+            var randomPowerup = Random.Range(0, powerups.Count);
+            Instantiate(powerups[randomPowerup],
                 new Vector3(Random.Range(-BoundX, BoundX), BoundY, 0),
                 Quaternion.identity
             );
-            yield return new WaitForSeconds(Random.Range(7, 14));
+            yield return new WaitForSeconds(Random.Range(5, 10));
         }
     }
 }
