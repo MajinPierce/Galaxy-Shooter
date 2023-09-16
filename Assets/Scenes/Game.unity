@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 580724994}
   - component: {fileID: 580724993}
   m_Layer: 0
-  m_Name: SpawnManager
+  m_Name: Spawn_Manager
   m_TagString: Spawn Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,6 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 989864736578223310, guid: 0ea801aa20ff2cd488a98b95e3330c50, type: 3}
   enemyContainer: {fileID: 953997614}
+  tripleShotPrefab: {fileID: 5395803500416103844, guid: bb48c204d5afe624ea7f0f85f9732284, type: 3}
   spawnRate: 3
 --- !u!4 &580724994
 Transform:
@@ -507,6 +508,9 @@ MonoBehaviour:
   speed: 5
   fireRate: 0.25
   laserPrefab: {fileID: 5931877089636351293, guid: 07d190d30eb59cf449e4e44ec47129ed, type: 3}
+  tripleShotPrefab: {fileID: 8669395684375853957, guid: 31cf5bc89374b8a41954c660db8afe87, type: 3}
+  hasTripleShot: 0
+  powerupActivationTime: 5
 --- !u!212 &2122815179
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -568,7 +572,7 @@ Transform:
   m_GameObject: {fileID: 2122815177}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.07, y: -3.82, z: 0}
+  m_LocalPosition: {x: 0, y: -4, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
