@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     private GameObject tripleShotPrefab;
     [SerializeField]
     private GameObject shield;
+    private UIManager _uiManager;
+    private GameManager _gameManager;
     private SpawnManager _spawnManager;
     private const float BoundX = 9.65f;
     private const float BoundY = 4.6f;
@@ -31,16 +33,25 @@ public class Player : MonoBehaviour
     private bool hasShield = false;
     [SerializeField]
     private float powerupActivationTime = 5f;
+    [SerializeField]
+    private int score = 0;
     
     
     // Start is called before the first frame update
     private void Start()
     {
         _spawnManager = GameObject.FindGameObjectWithTag("Spawn Manager").transform.GetComponent<SpawnManager>();
+        _uiManager = GameObject.FindGameObjectWithTag("Canvas").transform.GetComponent<UIManager>();
+        _gameManager = GameObject.FindGameObjectWithTag("GameManager").transform.GetComponent<GameManager>();
         if (_spawnManager.IsUnityNull())
         {
             Debug.LogError("Spawn Manager is null");
         }
+        if (_uiManager.IsUnityNull())
+        {
+            Debug.LogError("UI Manager is null");
+        }
+        _uiManager.UpdateLives(lives);
         transform.position = new Vector3(0, -4, 0);
     }
 
@@ -87,14 +98,24 @@ public class Player : MonoBehaviour
     {
         if (hasShield)
         {
-            hasShield = false; 
+            hasShield = false;
+            shield.SetActive(hasShield);
             return;
         }
         
         lives--;
+        _uiManager.UpdateLives(lives);
         if (lives > 0) return;
         _spawnManager.OnPlayerDeath();
         Destroy(gameObject);
+        _uiManager.GameOver();
+        _gameManager.GameOver();
+    }
+
+    public void IncrementScore()
+    {
+        score++;
+        _uiManager.UpdateScore(score);
     }
 
     public void ActivatePowerup(int powerupId)
@@ -111,7 +132,7 @@ public class Player : MonoBehaviour
                 break;
             case 2:
                 hasShield = true;
-                shield.SetActive(true);
+                shield.SetActive(hasShield);
                 StartCoroutine(ShieldRuntime());
                 break;
         }
@@ -133,7 +154,7 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(powerupActivationTime);
         hasShield = false;
-        shield.SetActive(false);
+        shield.SetActive(hasShield);
     }
     
 }

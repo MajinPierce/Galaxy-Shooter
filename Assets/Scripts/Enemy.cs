@@ -11,11 +11,14 @@ public class Enemy : MonoBehaviour
     private const float BoundY = 7.5f;
     private const float BoundX = 9f;
     private float fuzzer;
+    [SerializeField]
+    private Player player;
     
     // Start is called before the first frame update
     void Start()
     {
         fuzzer = Random.value;
+        player = GameObject.FindGameObjectWithTag("Player").transform.GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -39,6 +42,7 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Laser"))
         {
             Destroy(other.gameObject);
+            player.IncrementScore();
             Destroy(gameObject);
         }
     }
